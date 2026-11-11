@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="order-container">
+        <h1>My Orders</h1>
+    </div>
+
+    <div class="order-filters">
+        <a href="{% url 'my_orders' %}?status=Pending">Pending</a>
+        <a href="{% url 'my_orders' %}?status=Confirmed">Confirmed</a>
+        <a href="{% url 'my_orders' %}?status=Delivered">Delivered</a>
+        <a href="{% url 'my_orders' %}?status=Cancelled">Cancelled</a>
+        <a href="{% url 'my_orders' %}">All Orders</a>
+    </div>
+
+    {% for order in orders %}
+
+    <div class="order-product">
+
+        <h2>{{ order.product }}</h2>
+
+        <div class="order-quantity">
+            <p>Quantity: {{ order.quantity }}</p>
+        </div>
+
+        <div class="order-total">
+            <p>Total: ₹{{ order.total }}</p>
+        </div>
+
+        <div class="order-date">
+            <p>Order Date: {{ order.created_at }}</p>
+        </div>
+
+        <div class="order-status">
+            <p>Status: {{ order.status }}</p>
+        </div>
+
+        <div class="order-details">
+            <a href="{% url 'order_detail' order.id %}">
+                <button type="button">View Details</button>
+            </a>
+        </div>
+
+        {% if order.status != "Cancelled" and order.status != "Delivered" %}
+
+        <form method="post" action="{% url 'cancel_order' order.id %}">
+            {% csrf_token %}
+            <div class="order-cancelorder">
+                <button type="submit">Cancel Order</button>
+            </div>
+        </form>
+
+        {% else %}
+
+        <div class="order-notcancel">
+            <p>Order cannot be cancelled</p>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% empty %}
+
+    <div class="orders">
+        <p>No orders found.</p>
+    </div>
+
+    {% endfor %}
+
+    <div class="order-pagination">
+
+        {% if orders.has_previous %}
+        <a href="?page={{ orders.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="order-number">
+            Page {{ orders.number }}
+        </span>
+
+        {% if orders.has_next %}
+        <a href="?page={{ orders.next_page_number }}">Next</a>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

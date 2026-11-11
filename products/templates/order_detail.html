@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Detail</title>
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+        <div class="product-container">
+            <h1>{{ order.product }}</h1>
+        </div>
+        <div class="product-quan">
+            <p>{{ order.quantity }}</p>
+        </div>
+        <div class="product-total">
+            <p>{{ order.total }}</p>
+        </div>
+        <div class="product-date">
+            <p>{{ order.created_at }}</p>
+        </div>
+        <div class="product-status">
+            <p>{{ order.status }}</p>
+        </div>
+        <div class="product-desc"> 
+            <p>{{order.product.description}}</p>
+        </div>
+        
+        
+        <div class="product-back"> 
+        <a href="{% url 'my_orders' %}">Back to My Orders</a>
+        </div>
+</body>
+
+</html>

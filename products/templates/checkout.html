@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+</html>
+<body>
+
+    <div class="checkout-container">
+
+        <h1>Your Order</h1>
+
+        {% for products in product %}
+
+        <div class="checkout-product-card">
+
+            <div class="checkout-product-name">
+                <h2>{{ products.name }}</h2>
+            </div>
+
+            <div class="checkout-product-price">
+                <p>Price: ₹{{ products.price }}</p>
+            </div>
+
+            <div class="checkout-product-quantity">
+                <p>Quantity: {{ products.quantity }}</p>
+            </div>
+
+            <div class="checkout-product-total">
+                <p>Total: ₹{{ products.total }}</p>
+            </div>
+
+        </div>
+
+        <hr>
+
+        {% empty %}
+
+        <div class="checkout-empty-message">
+            <h2>Your cart is empty!</h2>
+            <p>Please add some products first.</p>
+        </div>
+
+        {% endfor %}
+
+        {% if product %}
+        <div class="checkout-grand-total">
+            <h2>Grand Total: ₹{{ grand_total}}</h2>
+            </div>
+<div class="checkout-place-order-btn">
+    <a href="{% url 'place_order' %}">
+        <button>Place Order</button>
+    </a>
+</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>

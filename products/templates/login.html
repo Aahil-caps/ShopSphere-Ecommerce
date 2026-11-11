@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | ShopSphere</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>Login</h1>
+
+        <div class="login-p">
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="login-user">
+                <input type="text" name="username" placeholder="Enter username" required>
+            </div>
+
+            <div class="login-pass">
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+
+            <div class="login-sub">
+                <button type="submit">Login</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

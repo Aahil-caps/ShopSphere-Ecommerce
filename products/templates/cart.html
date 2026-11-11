@@ -1,0 +1,101 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="cart-container">
+
+        <h1>My Cart</h1>
+
+        {% if cart %}
+
+        {% for products in product %}
+
+        <div class="cart-item">
+
+            <h2>{{ products.name }}</h2>
+
+            <p class="cart-price">
+                Price: ₹{{ products.price }}
+            </p>
+
+            <p>
+                Quantity: {{ products.quantity }}
+            </p>
+
+            <p>
+                Total: ₹{{ products.total }}
+            </p>
+
+            <div class="quantity">
+
+                <a class="increase-btn"
+                   href="{% url 'increase_cart' products.id %}">
+                    +
+                </a>
+
+                <a class="decrease-btn"
+                   href="{% url 'decrease_cart' products.id %}">
+                    -
+                </a>
+
+            </div>
+
+            <a class="remove-btn"
+               href="{% url 'remove_cart' products.id %}">
+                Remove
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+        <div class="cart-total">
+
+            <h2>Grand Total:</h2>
+
+            <p>₹{{ grand_total }}</p>
+
+        </div>
+
+        <a class="checkout-btn" href="{% url 'checkout' %}">
+            Checkout
+        </a>
+
+        {% else %}
+
+        <div class="empty-cart">
+            <h2>Your cart is empty</h2>
+        </div>
+
+        {% endif %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="cart-message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if cart %}
+
+        <a class="remove-btn clear-cart-btn"
+           href="{% url 'clear_cart' %}">
+            Clear Cart
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

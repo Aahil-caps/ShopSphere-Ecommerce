@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    
+<div class="product-detail">
+
+    <h1>{{ product.name }}</h1>
+
+    <p>{{ product.description }}</p>
+
+    <p>Price: ₹{{ product.price }}</p>
+
+    <p>Stock: {{ product.stock }}</p>
+
+    <p>Created: {{ product.created_at }}</p>
+
+    <div class="product-actions">
+        <a href="{% url 'add_to_cart' product.id %}">
+            Add To Cart
+        </a>
+
+        <a href="{% url 'product_list' %}">
+            Back To Products
+        </a>
+    </div>
+
+</div>
+</body>
+</html>

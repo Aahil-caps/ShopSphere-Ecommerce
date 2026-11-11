@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Our Products</h1>
+
+        <!-- Search and Filter -->
+        <form method="get" class="filter-form">
+
+            <input type="search" name="name"
+                placeholder="Search product" value="{{ name }}">
+
+            <input type="number" name="min_price"
+                placeholder="Minimum Price">
+
+            <input type="number" name="max_price"
+                placeholder="Maximum Price">
+
+            <input type="number" name="min_stock"
+                placeholder="Minimum Stock">
+
+            <input type="number" name="max_stock"
+                placeholder="Maximum Stock">
+
+            <button type="submit">Filter / Search</button>
+
+            <div class="hd1">
+                <a href="{% url 'product_list' %}?sort=asc">Price Asc</a>
+                <a href="{% url 'product_list' %}?sort=desc">Price Desc</a>
+                <a href="{% url 'product_list' %}?sort=name_asc">Name A-Z</a>
+                <a href="{% url 'product_list' %}?sort=name_desc">Name Z-A</a>
+            </div>
+
+        </form>
+
+        <!-- Product Cards -->
+        <div class="product-grid">
+
+            {% for product in product %}
+
+            <div class="product-card">
+
+                <h2>{{ product.name }}</h2>
+
+                <p>Description: {{ product.description }}</p>
+
+                <p class="price">Price: ₹{{ product.price }}</p>
+
+                <p>Stock: {{ product.stock }}</p>
+
+                <p>Created: {{ product.created_at }}</p>
+
+                <a href="{% url 'add_to_cart' product.id %}">
+                    Add To Cart
+                </a>
+
+                <a href="{% url 'product_detail' product.id %}">
+                    View Details
+                </a>
+
+            </div>
+
+            {% empty %}
+            <p>No products found.</p>
+            {% endfor %}
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+
+            {% if product.has_previous %}
+            <a href="?page={{ product.previous_page_number }}&name={{ name }}">
+                Previous
+            </a>
+            {% endif %}
+
+            <span>
+                Page {{ product.number }} of {{ product.paginator.num_pages }}
+            </span>
+
+            {% if product.has_next %}
+            <a href="?page={{ product.next_page_number }}&name={{ name }}">
+                Next
+            </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>
